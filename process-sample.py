@@ -3,7 +3,7 @@
 # extract reads and make mitochondrial calls
 
 
-import callmito
+import callmito_single
 import os
 import sys
 import argparse
@@ -93,37 +93,51 @@ if os.path.isdir(myData['finalDirSample']) is False:
     print('making ',myData['finalDirSample'])
     cmd = 'mkdir ' + myData['finalDirSample']
     print(cmd)
-    callmito.runCMD(cmd)
+    callmito_single.runCMD(cmd)
 myData['finalDirSample'] += '/'    
 
 myData['logFileName'] = myData['finalDirSample'] + myData['sampleName'] + '.mito.log'
 myData['logFile'] = open(myData['logFileName'],'w')
 
+
+
 # add initial infoto log
-callmito.init_log(myData)
-callmito.check_prog_paths(myData)
+callmito_single.init_log(myData)
+callmito_single.check_prog_paths(myData)
+
 
 # get reads to extract
-callmito.extract_reads(myData)
+callmito_single.extract_reads(myData)
+
 
 
 # align to each mito
-callmito.align_to_mitos(myData)
+callmito_single.align_to_mitos(myData)
 
 
-callmito.run_coverage(myData)
 
-callmito.down_sample(myData)
+
+callmito_single.run_coverage(myData)
+
+
+
+
+callmito_single.down_sample(myData)
+
+
 
 # run vcf
-callmito.call_vars(myData)
+callmito_single.call_vars(myData)
+
 
 # filter vcf
-callmito.filter_germline(myData)
+callmito_single.filter_germline(myData)
+
+
 
 # make fasta and mask
-callmito.make_fasta_germline(myData)
+callmito_single.make_fasta_germline(myData)
 
-callmito.assign_haplogroup(myData)
+callmito_single.assign_haplogroup(myData)
 
 myData['logFile'].close()
