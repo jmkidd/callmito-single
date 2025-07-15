@@ -12,8 +12,10 @@ This pipeline calls mitochondrial variation from Illumina data.
 
 The process starts with aligning single-end reads to a genome file that contains
 the standard and rotated mitochondrial reference genomes.  This accounts for reads
-that align across the end of the circular mitochondria. The resulting bam file is then 
-given as input to callmito-single/process-sample.py which employs the same basic steps
+that align across the end of the circular mitochondria. Note that since unmapped reads 
+cannot be "rescued" by their mate, we recommend mapping the original fastq to the combined
+mitochondrial fasta file instead of using an existing alignment to a genome reference assembly.
+The resulting bam file is then given as input to callmito-single/process-sample.py which employs the same basic steps
 as [callmito](https://github.com/jmkidd/callmito) but for single end reads. To accomodate
 lower coverage data, regions with a depth less than 3 are masked to N.
 
